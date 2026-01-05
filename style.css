@@ -127,6 +127,7 @@ body::before {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
+    font-size: 50px;
     margin-bottom: 15px;
 }
 
