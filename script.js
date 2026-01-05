@@ -25,6 +25,8 @@ const firebaseConfig = {
     appId: "1:5302696540:web:42959e5db2ffc03a090499"
 };
 
+let fotoBase64 = null;
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -179,8 +181,6 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
     const btn = document.getElementById("saveProfile");
     const user = auth.currentUser;
 
-    if (!user) return;
-
     const profileData = {
         uid: user.uid,
         nome: document.getElementById("firstName").value,
@@ -189,6 +189,8 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
         bio: document.getElementById("userBio").value,
         genero: document.getElementById("userGender").value,
         interesse: document.getElementById("userInterest").value,
+        // Salvamos o código da imagem aqui
+        foto: fotoBase64 || "https://via.placeholder.com/400x500?text=Sem+Foto",
         completouPerfil: true,
         dataCriacao: new Date()
     };
@@ -197,15 +199,10 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
 
     try {
         await setDoc(doc(db, "usuarios", user.uid), profileData);
-        showToast("Perfil salvo com sucesso!", "success");
-        profileModal.classList.remove("show");
-        
-        // Pequeno delay para o usuário ler o Toast antes de mudar de página
-        setTimeout(() => {
-            window.location.href = "home.html";
-        }, 1500);
+        showToast("Perfil criado com sucesso!", "success");
+        setTimeout(() => { window.location.href = "home.html"; }, 1500);
     } catch (err) {
-        showToast("Erro ao salvar perfil: " + err.message, "error");
+        showToast("Erro ao salvar perfil", "error");
     } finally {
         setBtnLoading(btn, false);
     }

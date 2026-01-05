@@ -695,4 +695,15 @@ textarea {
         flex: 1;
         padding: 10px 10px;
     }
+
+    #photoPreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a foto preencher o círculo sem esticar */
+}
+
+/* Esconde o texto feio do input file e deixa só o botão (opcional) */
+input[type="file"] {
+    color: #666;
+}
 }

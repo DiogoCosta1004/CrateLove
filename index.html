@@ -35,102 +35,92 @@
         </div>
     </main>
 
-    <!-- MODAL LOGIN -->
-<!-- MODAL LOGIN -->
-<div class="login-modal" id="loginModal">
-  <div class="login-box">
-    <span class="close-login">&times;</span>
-
-    <h2>Entrar</h2>
-    <p>Conecte-se à sua conta</p>
-
-    <form id="loginForm">
-      <input type="email" id="loginEmail" placeholder="E-mail" required>
-      <input type="password" id="loginPassword" placeholder="Senha" required>
-      <button type="submit">Entrar</button>
-    </form>
-
-    <span class="divider">ou</span>
-
-    <button class="google-login" id="googleLogin">
-      <i class="fa-brands fa-google"></i> Entrar com Google
-    </button>
-
-    <small>Não tem conta? <a href="#" id="openRegister">Criar agora</a></small>
-  </div>
-</div>
-
-
-<!-- MODAL CADASTRO -->
-<!-- MODAL CADASTRO -->
-<div class="login-modal" id="registerModal">
-  <div class="login-box">
-    <span class="close-register">&times;</span>
-
-    <h2>Criar conta</h2>
-    <p>Entre para o Fluid Dating</p>
-
-    <form id="registerForm">
-      <input type="email" id="registerEmail" placeholder="E-mail" required>
-      <input type="password" id="registerPassword" placeholder="Senha" required>
-      <button type="submit">Cadastrar</button>
-    </form>
-
-    <span class="divider">ou</span>
-
-    <button class="google-login" id="googleRegister">
-      <i class="fa-brands fa-google"></i> Cadastrar com Google
-    </button>
-
-    <small>Já tem conta? <a href="#" id="openLogin">Entrar</a></small>
-  </div>
-</div>
-
-<!--------- MODAL DO PERFIL ------------>
-
-<div class="login-modal" id="profileModal">
-    <div class="login-box profile-setup">
-        <div class="progress-bar"><div class="progress" id="setupProgress"></div></div>
-        
-        <form id="profileForm">
-            <div class="setup-step active" data-step="1">
-                <h2>Conte sobre você</h2>
-                <p>Como as pessoas te encontrarão?</p>
-                <input type="text" id="firstName" placeholder="Nome" required>
-                <input type="text" id="lastName" placeholder="Sobrenome" required>
-                <label style="display:block; text-align:left; margin: 10px 0 5px 10px; font-size: 0.8rem;">Data de Nascimento</label>
-                <input type="date" id="birthDate" required>
-                <button type="button" class="next-step">Próximo</button>
-            </div>
-
-            <div class="setup-step" data-step="2">
-                <h2>Sua Essência</h2>
-                <p>Uma bio curta atrai mais conexões!</p>
-                <textarea id="userBio" placeholder="Ex: Amo trilhas e café..." maxlength="150"></textarea>
-                
-                <div class="gender-selection">
-                    <select id="userGender">
-                        <option value="" disabled selected>Seu Gênero</option>
-                        <option value="homem">Homem</option>
-                        <option value="mulher">Mulher</option>
-                        <option value="nao-binario">Não-binário</option>
-                        <option value="fluido">Gênero Fluido</option>
-                    </select>
-
-                    <select id="userInterest">
-                        <option value="" disabled selected>Interesse em</option>
-                        <option value="homens">Homens</option>
-                        <option value="mulheres">Mulheres</option>
-                        <option value="todos">Todos</option>
-                    </select>
-                </div>
-                <button type="submit" id="saveProfile">Finalizar Perfil</button>
-            </div>
+    <div class="login-modal" id="loginModal">
+      <div class="login-box">
+        <span class="close-login">&times;</span>
+        <h2>Entrar</h2>
+        <p>Conecte-se à sua conta</p>
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="E-mail" required>
+          <input type="password" id="loginPassword" placeholder="Senha" required>
+          <button type="submit">Entrar</button>
         </form>
+        <span class="divider">ou</span>
+        <button class="google-login" id="googleLogin">
+          <i class="fa-brands fa-google"></i> Entrar com Google
+        </button>
+        <small>Não tem conta? <a href="#" id="openRegister">Criar agora</a></small>
+      </div>
     </div>
-</div>
 
-<script type="module" src="script.js"></script>
+    <div class="login-modal" id="registerModal">
+      <div class="login-box">
+        <span class="close-register">&times;</span>
+        <h2>Criar conta</h2>
+        <p>Entre para o Fluid Dating</p>
+        <form id="registerForm">
+          <input type="email" id="registerEmail" placeholder="E-mail" required>
+          <input type="password" id="registerPassword" placeholder="Senha" required>
+          <button type="submit">Cadastrar</button>
+        </form>
+        <span class="divider">ou</span>
+        <button class="google-login" id="googleRegister">
+          <i class="fa-brands fa-google"></i> Cadastrar com Google
+        </button>
+        <small>Já tem conta? <a href="#" id="openLogin">Entrar</a></small>
+      </div>
+    </div>
 
+    <div class="login-modal" id="profileModal">
+        <div class="login-box profile-setup">
+            <div class="progress-bar"><div class="progress" id="setupProgress"></div></div>
+            
+            <form id="profileForm">
+                <div class="setup-step active" data-step="1">
+                    <h2>Conte sobre você</h2>
+                    <p>Como as pessoas te encontrarão?</p>
+
+                    <div class="input-group">
+                        <div id="photoPreview" style="width: 110px; height: 110px; border-radius: 50%; background: #f0f0f0; margin: 0 auto 15px auto; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 3px solid #ff7f7f; cursor: pointer;">
+                            <i class="fa-solid fa-camera" style="color: #ccc; font-size: 2rem;"></i>
+                        </div>
+                        <input type="file" id="profilePhoto" accept="image/*" style="display: block; margin: 0 auto 20px auto; font-size: 0.8rem;">
+                    </div>
+
+                    <input type="text" id="firstName" placeholder="Nome" required>
+                    <input type="text" id="lastName" placeholder="Sobrenome" required>
+                    <label style="display:block; text-align:left; margin: 10px 0 5px 10px; font-size: 0.8rem;">Data de Nascimento</label>
+                    <input type="date" id="birthDate" required>
+                    <button type="button" class="next-step">Próximo</button>
+                </div>
+
+                <div class="setup-step" data-step="2">
+                    <h2>Sua Essência</h2>
+                    <p>Uma bio curta atrai mais conexões!</p>
+                    <textarea id="userBio" placeholder="Ex: Amo trilhas e café..." maxlength="150"></textarea>
+                    
+                    <div class="gender-selection">
+                        <select id="userGender">
+                            <option value="" disabled selected>Seu Gênero</option>
+                            <option value="homem">Homem</option>
+                            <option value="mulher">Mulher</option>
+                            <option value="nao-binario">Não-binário</option>
+                            <option value="fluido">Gênero Fluido</option>
+                        </select>
+
+                        <select id="userInterest">
+                            <option value="" disabled selected>Interesse em</option>
+                            <option value="homens">Homens</option>
+                            <option value="mulheres">Mulheres</option>
+                            <option value="todos">Todos</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="saveProfile">Finalizar Perfil</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
