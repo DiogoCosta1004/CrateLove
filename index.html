@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid Dating - Conexões Sem Fronteiras</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="images/Logo.png" alt="Logo">
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#">Página inicial</a></li>
+            <li><a href="#">Membros</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contatos</a></li>
+           <button type="button" class="login">Entrar</button>
+
+        </ul>
+        <i class="fa fa-bars"></i>
+    </div>
+
+    <main class="hero">
+        <div class="content">
+            <h4>Liberdade & Conexão</h4>
+            <h1>O amor é <span>Fluido</span>, a escolha é sua.</h1>
+            <p>Descubra uma comunidade que celebra a diversidade. Conecte-se com pessoas que vibram na mesma frequência que você, sem rótulos ou barreiras.</p>
+            <button class="details-btn">Explorar Agora</button>
+        </div>
+        <div class="image">
+            <img src="images/generos.png" alt="Dating Community">
+        </div>
+    </main>
+
+    <!-- MODAL LOGIN -->
+<!-- MODAL LOGIN -->
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <span class="close-login">&times;</span>
+
+    <h2>Entrar</h2>
+    <p>Conecte-se à sua conta</p>
+
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="E-mail" required>
+      <input type="password" id="loginPassword" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+    </form>
+
+    <span class="divider">ou</span>
+
+    <button class="google-login" id="googleLogin">
+      <i class="fa-brands fa-google"></i> Entrar com Google
+    </button>
+
+    <small>Não tem conta? <a href="#" id="openRegister">Criar agora</a></small>
+  </div>
+</div>
+
+
+<!-- MODAL CADASTRO -->
+<!-- MODAL CADASTRO -->
+<div class="login-modal" id="registerModal">
+  <div class="login-box">
+    <span class="close-register">&times;</span>
+
+    <h2>Criar conta</h2>
+    <p>Entre para o Fluid Dating</p>
+
+    <form id="registerForm">
+      <input type="email" id="registerEmail" placeholder="E-mail" required>
+      <input type="password" id="registerPassword" placeholder="Senha" required>
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <span class="divider">ou</span>
+
+    <button class="google-login" id="googleRegister">
+      <i class="fa-brands fa-google"></i> Cadastrar com Google
+    </button>
+
+    <small>Já tem conta? <a href="#" id="openLogin">Entrar</a></small>
+  </div>
+</div>
+
+<script type="module" src="firebase-auth.js"></script>
+
+</body>
+</html>

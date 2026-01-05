@@ -1,0 +1,275 @@
+/* Importando fonte moderna */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #ff7f7f 0%, #a78bfa 50%, #60a5fa 100%);
+    --glass: rgba(255, 255, 255, 0.85);
+    --text-dark: #1a1a1a;
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #fffafa;
+    overflow-x: hidden;
+    color: var(--text-dark);
+}
+
+/* Fundo Fluido */
+body::before {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,127,127,0.08) 0%, rgba(167,139,250,0.08) 50%, rgba(96,165,250,0.08) 100%);
+    z-index: -1;
+    animation: flow 25s infinite alternate linear;
+}
+
+@keyframes flow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* HEADER */
+.header {
+    height: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 127, 127, 0.2);
+}
+
+.logo img {
+    height: 90px;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.nav-menu li {
+    padding-left: 35px;
+}
+
+.nav-menu li a {
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 1.05rem;
+    position: relative;
+}
+
+.nav-menu li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: var(--primary-gradient);
+    transition: var(--transition);
+}
+
+.nav-menu li a:hover::after {
+    width: 100%;
+}
+
+/* BOTÃO LOGIN */
+.login {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-left: 35px;
+}
+
+.header .fa-bars {
+    font-size: 1.6rem;
+    color: #ff7f7f;
+    display: none;
+    cursor: pointer;
+}
+
+/* HERO */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 8%;
+    min-height: calc(100vh - 120px);
+    gap: 50px;
+}
+
+.hero .content h4 {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.hero .content h1 {
+    font-size: 4.2rem;
+    margin-bottom: 25px;
+}
+
+.hero .content h1 span {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+}
+
+.hero .content p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 35px;
+}
+
+.details-btn {
+    padding: 16px 45px;
+    background: #1c1c1c;
+    color: white;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+}
+
+/* IMAGEM */
+.hero .image img {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 30px;
+}
+
+/* ========================= */
+/* LOGIN MODAL (CORRIGIDO) */
+/* ========================= */
+
+.login-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.login-modal.show {
+    display: flex;
+}
+
+.login-box {
+    background: var(--glass);
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 25px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 50px;
+    border: none;
+    background: var(--primary-gradient);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.google-login {
+    background: white;
+    color: #333;
+    border: 1px solid #ddd;
+    margin-top: 15px;
+}
+
+.close-login {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* RESPONSIVO */
+@media(max-width:1100px){
+    .header {
+        height: 90px;
+    }
+
+    .logo img {
+        height: 60px;
+    }
+
+    .header .fa-bars {
+        display: block;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 90px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 90px);
+        background: white;
+        flex-direction: column;
+        justify-content: center;
+        transition: 0.5s;
+    }
+
+    .nav-menu.show {
+        left: 0;
+    }
+
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .hero .content h1 {
+        font-size: 2.8rem;
+    }
+}
