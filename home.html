@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar - Fluid Dating</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet">
+</head>
+<body class="home-body">
+    <div id="toast-container"></div>
+
+    <header class="header">
+        <div class="logo">
+            <img src="images/Logo.png" alt="Logo">
+        </div>
+        <div id="auth-buttons">
+            </div>
+    </header>
+
+    <main class="home-container">
+        <aside class="sidebar">
+            <nav>
+                <a href="#" class="active"><i class="fa-solid fa-fire"></i> Explorar</a>
+                <a href="#"><i class="fa-solid fa-message"></i> Mensagens</a>
+                <a href="#"><i class="fa-solid fa-heart"></i> Meus Matches</a>
+                <a href="#"><i class="fa-solid fa-user"></i> Meu Perfil</a>
+            </nav>
+        </aside>
+
+        <section class="feed">
+           <div class="feed-header">
+    <h2>Pessoas perto de você</h2>
+    <div class="filters">
+        <button class="filter-btn active" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter="mulheres">Mulheres</button>
+        <button class="filter-btn" data-filter="homens">Homens</button>
+    </div>
+</div>
+
+            <div id="users-grid" class="users-grid">
+                <div class="loading-animation">
+                    <span class="spinner"></span> Buscando conexões...
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="home-script.js"></script>
+</body>
+</html>

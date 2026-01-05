@@ -4,8 +4,16 @@ import {
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword, 
     GoogleAuthProvider, 
-    signInWithPopup 
+    signInWithPopup,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { 
+    getFirestore, 
+    doc, 
+    getDoc, 
+    setDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -19,58 +27,196 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 /* ===== SELETORES DE ELEMENTOS ===== */
 const loginModal = document.getElementById("loginModal");
 const registerModal = document.getElementById("registerModal");
+const profileModal = document.getElementById("profileModal");
 const navMenu = document.querySelector(".nav-menu");
 const menuBtn = document.querySelector(".fa-bars");
+const authContainer = document.getElementById("auth-buttons");
 
-/* ===== FUNÇÕES DE UI (FEEDBACK E LOADING) ===== */
+/* ===== FUNÇÕES DE UI (FEEDBACK) ===== */
 
-// Função para exibir notificações (Toast)
 function showToast(message, type = "success") {
     const container = document.getElementById("toast-container");
-    if (!container) return; // Segurança caso o container não exista no HTML
-
+    if (!container) return;
     const toast = document.createElement("div");
     toast.className = `toast ${type}`;
     toast.innerText = message;
     container.appendChild(toast);
-
-    // Remove o toast após 3 segundos
     setTimeout(() => {
         toast.style.opacity = "0";
         setTimeout(() => toast.remove(), 500);
     }, 3000);
 }
 
-// Função para gerenciar estado de carregamento do botão
 function setBtnLoading(btn, isLoading) {
     if (isLoading) {
         btn.disabled = true;
-        btn.dataset.oldText = btn.innerHTML; // Salva o texto original
-        btn.innerHTML = `<span class="spinner"></span> Processando...`;
+        btn.dataset.oldText = btn.innerHTML;
+        btn.innerHTML = `<span class="spinner"></span> Carregando...`;
     } else {
         btn.disabled = false;
         btn.innerHTML = btn.dataset.oldText || btn.innerHTML;
     }
 }
 
-/* ===== CONTROLE DOS MODAIS E MENU ===== */
+/* ===== MONITOR DE ESTADO DO USUÁRIO ===== */
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        // Busca dados do perfil para verificar se está completo
+        const docRef = doc(db, "usuarios", user.uid);
+        const docSnap = await getDoc(docRef);
+        
+        // Se já completou o perfil, redireciona para a Home automaticamente
+        if (docSnap.exists() && docSnap.data().completouPerfil) {
+            window.location.href = "home.html";
+        }
 
-menuBtn.onclick = () => navMenu.classList.toggle("show");
+        let nomeUsuario = docSnap.exists() ? docSnap.data().nome : "Usuário";
+        
+        // Atualiza a interface do Header
+        if(authContainer) {
+            authContainer.innerHTML = `
+                <span style="margin-left: 20px; font-weight: 600;">Olá, ${nomeUsuario}!</span>
+                <button type="button" class="details-btn" id="logoutBtn" style="padding: 10px 20px; margin-left: 15px;">Sair</button>
+            `;
+
+            document.getElementById("logoutBtn").onclick = () => {
+                auth.signOut().then(() => {
+                    showToast("Você saiu com sucesso!");
+                    window.location.reload();
+                });
+            };
+        }
+    } else {
+        // Se deslogado, exibe botão Entrar
+        if(authContainer) {
+            authContainer.innerHTML = `<button type="button" class="login" id="loginBtn">Entrar</button>`;
+            document.getElementById("loginBtn").onclick = () => loginModal.classList.add("show");
+        }
+    }
+});
+
+/* ===== LÓGICA DE PASSOS DO PERFIL (MODAL) ===== */
+const nextBtn = document.querySelector(".next-step");
+if(nextBtn) {
+    nextBtn.onclick = () => {
+        if(!document.getElementById("firstName").value) {
+            showToast("Por favor, preencha seu nome", "error");
+            return;
+        }
+        document.querySelectorAll(".setup-step")[0].classList.remove("active");
+        document.querySelectorAll(".setup-step")[1].classList.add("active");
+        document.getElementById("setupProgress").style.width = "100%";
+    };
+}
+
+/* ===== LÓGICA DE LOGIN ===== */
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value;
+    const pass = document.getElementById("loginPassword").value;
+    const btn = e.target.querySelector("button");
+
+    setBtnLoading(btn, true);
+
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+        const user = userCredential.user;
+
+        // Verifica se o perfil existe para decidir onde mandar o usuário
+        const docRef = doc(db, "usuarios", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        loginModal.classList.remove("show");
+
+        if (docSnap.exists()) {
+            window.location.href = "home.html";
+        } else {
+            showToast("Complete seu perfil!");
+            profileModal.classList.add("show");
+        }
+    } catch (err) {
+        showToast("E-mail ou senha incorretos", "error");
+    } finally {
+        setBtnLoading(btn, false);
+    }
+});
+
+/* ===== LÓGICA DE CADASTRO ===== */
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("registerEmail").value;
+    const pass = document.getElementById("registerPassword").value;
+    const btn = e.target.querySelector("button");
+
+    if (pass.length < 6) {
+        showToast("A senha deve ter 6+ caracteres", "error");
+        return;
+    }
+
+    setBtnLoading(btn, true);
+
+    try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+        showToast("Conta criada com sucesso!", "success");
+        registerModal.classList.remove("show");
+        profileModal.classList.add("show");
+    } catch (err) {
+        showToast("Erro ao cadastrar: " + err.message, "error");
+    } finally {
+        setBtnLoading(btn, false);
+    }
+});
+
+/* ===== SALVAR DADOS NO FIRESTORE E IR PARA HOME ===== */
+document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("saveProfile");
+    const user = auth.currentUser;
+
+    if (!user) return;
+
+    const profileData = {
+        uid: user.uid,
+        nome: document.getElementById("firstName").value,
+        sobrenome: document.getElementById("lastName").value,
+        nascimento: document.getElementById("birthDate").value,
+        bio: document.getElementById("userBio").value,
+        genero: document.getElementById("userGender").value,
+        interesse: document.getElementById("userInterest").value,
+        completouPerfil: true,
+        dataCriacao: new Date()
+    };
+
+    setBtnLoading(btn, true);
+
+    try {
+        await setDoc(doc(db, "usuarios", user.uid), profileData);
+        showToast("Perfil salvo com sucesso!", "success");
+        profileModal.classList.remove("show");
+        
+        // Pequeno delay para o usuário ler o Toast antes de mudar de página
+        setTimeout(() => {
+            window.location.href = "home.html";
+        }, 1500);
+    } catch (err) {
+        showToast("Erro ao salvar perfil: " + err.message, "error");
+    } finally {
+        setBtnLoading(btn, false);
+    }
+});
+
+/* ===== CONTROLE DOS MODAIS E MENU ===== */
+if(menuBtn) menuBtn.onclick = () => navMenu.classList.toggle("show");
 
 document.querySelector(".login").onclick = () => loginModal.classList.add("show");
-
-document.querySelector(".close-login").onclick = () => {
-    loginModal.classList.remove("show");
-};
-
-document.querySelector(".close-register").onclick = () => {
-    registerModal.classList.remove("show");
-};
+document.querySelector(".close-login").onclick = () => loginModal.classList.remove("show");
+document.querySelector(".close-register").onclick = () => registerModal.classList.remove("show");
 
 document.getElementById("openRegister").onclick = (e) => {
     e.preventDefault();
@@ -84,72 +230,25 @@ document.getElementById("openLogin").onclick = (e) => {
     loginModal.classList.add("show");
 };
 
-/* ===== LÓGICA DE LOGIN ===== */
-
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const emailInput = document.getElementById("loginEmail");
-    const passInput = document.getElementById("loginPassword");
-    const btn = e.target.querySelector("button");
-
-    // Reset de estilos
-    emailInput.classList.remove("input-error");
-    passInput.classList.remove("input-error");
-
-    setBtnLoading(btn, true);
-
-    try {
-        await signInWithEmailAndPassword(auth, emailInput.value, passInput.value);
-        showToast("Login realizado com sucesso!", "success");
-        loginModal.classList.remove("show");
-    } catch (err) {
-        passInput.classList.add("input-error");
-        showToast("E-mail ou senha inválidos.", "error");
-        console.error(err);
-    } finally {
-        setBtnLoading(btn, false);
-    }
-});
-
-/* ===== LÓGICA DE CADASTRO ===== */
-
-document.getElementById("registerForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const emailInput = document.getElementById("registerEmail");
-    const passInput = document.getElementById("registerPassword");
-    const btn = e.target.querySelector("button");
-
-    // Validação de lado do cliente (Mínimo 6 caracteres)
-    if (passInput.value.length < 6) {
-        passInput.classList.add("input-error");
-        showToast("A senha deve ter no mínimo 6 caracteres.", "error");
-        return;
-    }
-
-    setBtnLoading(btn, true);
-
-    try {
-        await createUserWithEmailAndPassword(auth, emailInput.value, passInput.value);
-        showToast("Conta criada com sucesso!", "success");
-        registerModal.classList.remove("show");
-    } catch (err) {
-        showToast("Erro ao cadastrar: " + err.message, "error");
-    } finally {
-        setBtnLoading(btn, false);
-    }
-});
-
 /* ===== GOOGLE AUTH ===== */
-
 const loginWithGoogle = async (e) => {
     const btn = e.currentTarget;
     setBtnLoading(btn, true);
-
     try {
-        await signInWithPopup(auth, provider);
-        showToast("Conectado com Google!", "success");
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        
+        const docRef = doc(db, "usuarios", user.uid);
+        const docSnap = await getDoc(docRef);
+
         loginModal.classList.remove("show");
         registerModal.classList.remove("show");
+
+        if (!docSnap.exists()) {
+            profileModal.classList.add("show");
+        } else {
+            window.location.href = "home.html";
+        }
     } catch (err) {
         showToast("Erro na autenticação Google.", "error");
     } finally {

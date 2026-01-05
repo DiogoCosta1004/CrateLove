@@ -16,11 +16,9 @@
         </div>
         <ul class="nav-menu">
             <li><a href="#">Página inicial</a></li>
-            <!-- <li><a href="#">Membros</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Contatos</a></li> -->
-           <button type="button" class="login">Entrar</button>
-
+            <div id="auth-buttons">
+                <button type="button" class="login" id="loginBtn">Entrar</button>
+            </div>
         </ul>
         <i class="fa fa-bars"></i>
     </div>
@@ -86,6 +84,50 @@
 
     <small>Já tem conta? <a href="#" id="openLogin">Entrar</a></small>
   </div>
+</div>
+
+<!--------- MODAL DO PERFIL ------------>
+
+<div class="login-modal" id="profileModal">
+    <div class="login-box profile-setup">
+        <div class="progress-bar"><div class="progress" id="setupProgress"></div></div>
+        
+        <form id="profileForm">
+            <div class="setup-step active" data-step="1">
+                <h2>Conte sobre você</h2>
+                <p>Como as pessoas te encontrarão?</p>
+                <input type="text" id="firstName" placeholder="Nome" required>
+                <input type="text" id="lastName" placeholder="Sobrenome" required>
+                <label style="display:block; text-align:left; margin: 10px 0 5px 10px; font-size: 0.8rem;">Data de Nascimento</label>
+                <input type="date" id="birthDate" required>
+                <button type="button" class="next-step">Próximo</button>
+            </div>
+
+            <div class="setup-step" data-step="2">
+                <h2>Sua Essência</h2>
+                <p>Uma bio curta atrai mais conexões!</p>
+                <textarea id="userBio" placeholder="Ex: Amo trilhas e café..." maxlength="150"></textarea>
+                
+                <div class="gender-selection">
+                    <select id="userGender">
+                        <option value="" disabled selected>Seu Gênero</option>
+                        <option value="homem">Homem</option>
+                        <option value="mulher">Mulher</option>
+                        <option value="nao-binario">Não-binário</option>
+                        <option value="fluido">Gênero Fluido</option>
+                    </select>
+
+                    <select id="userInterest">
+                        <option value="" disabled selected>Interesse em</option>
+                        <option value="homens">Homens</option>
+                        <option value="mulheres">Mulheres</option>
+                        <option value="todos">Todos</option>
+                    </select>
+                </div>
+                <button type="submit" id="saveProfile">Finalizar Perfil</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script type="module" src="script.js"></script>
