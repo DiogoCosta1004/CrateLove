@@ -175,6 +175,41 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     }
 });
 
+/* ===== LÓGICA DE UPLOAD DE FOTO (PREVIEW) ===== */
+const fotoInput = document.getElementById("profilePhoto");
+const photoPreview = document.getElementById("photoPreview");
+
+if (fotoInput) {
+    fotoInput.addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        
+        if (file) {
+            // Validar tamanho (opcional: máximo 1MB para não pesar o Firestore)
+            if (file.size > 1024 * 1024) {
+                showToast("A imagem é muito grande! Escolha uma de até 1MB", "error");
+                this.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                // Salva o resultado na variável que você já criou
+                fotoBase64 = event.target.result;
+                
+                // Atualiza o círculo de preview com a imagem
+                photoPreview.innerHTML = `<img src="${fotoBase64}" style="width:100%; height:100%; object-fit:cover;">`;
+                photoPreview.style.border = "3px solid #a78bfa"; // Muda a cor da borda ao subir
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Opcional: Clique no círculo também abre o seletor de arquivos
+photoPreview.onclick = () => fotoInput.click();
+
 /* ===== SALVAR DADOS NO FIRESTORE E IR PARA HOME ===== */
 document.getElementById("profileForm").addEventListener("submit", async (e) => {
     e.preventDefault();
