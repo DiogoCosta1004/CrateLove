@@ -176,34 +176,43 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
 });
 
 /* ===== LÓGICA DE UPLOAD DE FOTO (PREVIEW) ===== */
+/* ===== LÓGICA DE UPLOAD COM REDIMENSIONAMENTO (CANVAS) ===== */
 const fotoInput = document.getElementById("profilePhoto");
 const photoPreview = document.getElementById("photoPreview");
 
 if (fotoInput) {
     fotoInput.addEventListener("change", function(e) {
         const file = e.target.files[0];
-        
-        if (file) {
-            // Validar tamanho (opcional: máximo 1MB para não pesar o Firestore)
-            if (file.size > 1024 * 1024) {
-                showToast("A imagem é muito grande! Escolha uma de até 1MB", "error");
-                this.value = "";
-                return;
-            }
+        if (!file) return;
 
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                // Salva o resultado na variável que você já criou
-                fotoBase64 = event.target.result;
-                
-                // Atualiza o círculo de preview com a imagem
-                photoPreview.innerHTML = `<img src="${fotoBase64}" style="width:100%; height:100%; object-fit:cover;">`;
-                photoPreview.style.border = "3px solid #a78bfa"; // Muda a cor da borda ao subir
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.src = event.target.result;
+
+            img.onload = function() {
+                // Criamos o editor invisível
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // Definimos o tamanho padrão (Ex: 400px de largura)
+                const maxWidth = 400;
+                const scale = maxWidth / img.width;
+                canvas.width = maxWidth;
+                canvas.height = img.height * scale;
+
+                // Desenhamos a imagem no novo tamanho
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // Convertemos para Base64 com compressão (0.7 = 70% de qualidade)
+                fotoBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+                // Atualizamos o preview na tela
+                photoPreview.innerHTML = `<img src="${fotoBase64}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+                showToast("Foto processada com sucesso!");
             };
-
-            reader.readAsDataURL(file);
-        }
+        };
+        reader.readAsDataURL(file);
     });
 }
 
