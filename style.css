@@ -283,7 +283,7 @@ body::before {
     cursor: pointer;
 }
 
-/* RESPONSIVO */
+/* RESPONSIVO HEADER */
 @media(max-width:1100px){
     .header {
         height: 90px;
@@ -380,8 +380,6 @@ textarea {
     to { opacity: 1; transform: translateY(0); }
 }
 
-
-
 /* Layout da Home */
 .home-body {
     background: #f0f2f5;
@@ -396,7 +394,7 @@ textarea {
     margin: 0 auto;
 }
 
-/* Sidebar Sidebar */
+/* Sidebar */
 .sidebar {
     background: var(--glass);
     backdrop-filter: blur(10px);
@@ -466,43 +464,11 @@ textarea {
     overflow: hidden;
 }
 
-.card-actions {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    border-top: 1px solid #eee;
-}
-
-.action-btn {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.like { background: #ffebeb; color: #ff7f7f; }
-.pass { background: #f0f0f0; color: #666; }
-
-@media (max-width: 900px) {
-    .home-container { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-}
-
 /* Container do Feed */
 .home-container {
     background: radial-gradient(circle at top right, rgba(167,139,250,0.05), transparent),
                 radial-gradient(circle at bottom left, rgba(255,127,127,0.05), transparent);
     min-height: 100vh;
-}
-
-/* Grid de Usuários mais elegante */
-.users-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px 0;
 }
 
 /* Card Estilo Premium */
@@ -516,12 +482,6 @@ textarea {
     box-shadow: 0 15px 35px rgba(0,0,0,0.05);
 }
 
-.user-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-}
-
-/* Foto com sobreposição de degradê */
 .user-photo-container {
     position: relative;
     height: 350px;
@@ -548,12 +508,6 @@ textarea {
     background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
 }
 
-/* Informações dentro do Card */
-.user-info {
-    padding: 20px;
-    position: relative;
-}
-
 .user-info h3 {
     font-size: 1.5rem;
     color: var(--text-dark);
@@ -568,14 +522,7 @@ textarea {
     opacity: 0.8;
 }
 
-.user-info p {
-    color: #666;
-    font-size: 0.95rem;
-    margin-top: 8px;
-    line-height: 1.4;
-}
-
-/* Botões de Ação Modernos */
+/* Botões de Ação Padronizados */
 .card-actions {
     display: flex;
     justify-content: center;
@@ -584,8 +531,8 @@ textarea {
 }
 
 .action-btn {
-    width: 55px;
-    height: 55px;
+    width: 55px !important;
+    height: 55px !important;
     border-radius: 50%;
     border: none;
     display: flex;
@@ -607,26 +554,13 @@ textarea {
     color: white;
 }
 
+.action-btn.chat { 
+    background: #eef2ff; 
+    color: #6366f1; 
+}
+
 .action-btn:hover {
     transform: scale(1.15) rotate(5deg);
-}
-
-/* Mensagem de "Vazio" Personalizada */
-.empty-feed {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 100px 20px;
-    background: var(--glass);
-    border-radius: 30px;
-    border: 2px dashed rgba(167,139,250,0.2);
-}
-
-.empty-feed i {
-    font-size: 4rem;
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
 }
 
 /* Container dos filtros */
@@ -639,12 +573,6 @@ textarea {
     gap: 20px;
 }
 
-.feed-header h2 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--text-dark);
-}
-
 .filters {
     display: flex;
     background: rgba(255, 255, 255, 0.5);
@@ -655,68 +583,30 @@ textarea {
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Botão de Filtro Estilizado */
 .filter-btn {
     padding: 10px 25px;
     border-radius: 50px;
     border: none;
     background: transparent;
     color: #666;
-    font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-/* Estado Ativo (O botão selecionado) */
 .filter-btn.active {
     background: var(--primary-gradient);
     color: white;
-    box-shadow: 0 4px 15px rgba(167, 139, 250, 0.3);
 }
 
-.filter-btn:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--text-dark);
-}
-
-/* Responsivo para celulares */
-@media (max-width: 600px) {
-    .feed-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .filters {
-        width: 100%;
-        justify-content: space-between;
-    }
-    .filter-btn {
-        flex: 1;
-        padding: 10px 10px;
-    }
-
-#photoPreview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-/* Esconde o texto feio do input file e deixa só o botão (opcional) */
-input[type="file"] {
-    color: #666;
-}
-
+/* RESPONSIVO CELULAR (SIDEBAR INFERIOR) */
 @media (max-width: 900px) {
-    /* Ajusta o container para não bater na barra inferior */
     .home-container {
         padding-bottom: 80px; 
     }
 
-    /* Transforma a sidebar em barra inferior */
     .sidebar {
-        display: flex !important; /* Força a exibição */
+        display: flex !important;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -727,7 +617,7 @@ input[type="file"] {
         border-radius: 20px 20px 0 0;
         box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
         padding: 0;
-        top: auto; /* Remove o sticky do desktop */
+        top: auto;
     }
 
     .sidebar nav {
@@ -738,10 +628,9 @@ input[type="file"] {
     }
 
     .sidebar nav a {
-        flex-direction: column; /* Ícone em cima do texto */
+        flex-direction: column;
         font-size: 0.7rem;
         padding: 10px;
-        margin-bottom: 0;
         gap: 5px;
     }
 
@@ -750,9 +639,201 @@ input[type="file"] {
         font-size: 1.4rem;
     }
 
-    /* Esconde o texto no celular para ficar mais limpo (opcional) */
     .sidebar nav a span {
         display: none;
     }
 }
+
+/* SEÇÃO DE CONVERSAÇÃO (FORA DA MEDIA QUERY) */
+.chat-window {
+    background: var(--glass);
+    border-radius: 25px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.chat-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: rgba(255,255,255,0.2);
+}
+
+.empty-chat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    text-align: center;
+}
+
+.empty-chat i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.message {
+    max-width: 65%;
+    padding: 12px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.message.sent {
+    align-self: flex-end;
+    background: var(--primary-gradient);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.received {
+    align-self: flex-start;
+    background: white;
+    color: #333;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.chat-input-area {
+    padding: 15px 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    padding: 12px 20px;
+}
+
+.send-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-gradient);
+    color: white;
+    cursor: pointer;
+}
+
+.chat-list-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.chat-item:hover, .chat-item.active {
+    background: rgba(167, 139, 250, 0.1);
+}
+
+.chat-item-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chat-item-info { flex: 1; overflow: hidden; }
+
+.chat-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-item p {
+    font-size: 0.8rem;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge {
+    background: #ff4d4d;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* Garante que o container de mensagens ocupe o espaço e role */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: calc(80vh - 140px); /* Ajuste conforme o header e input */
+}
+
+/* Esconde a barra lateral em telas muito pequenas se um chat estiver aberto (Opcional) */
+@media (max-width: 768px) {
+    .home-container {
+        display: block; /* Empilha a lista e o chat */
+    }
+    .sidebar {
+        height: auto;
+        margin-bottom: 20px;
+    }
+}
+
+/* Container que agrupa os dois seletores */
+.gender-selection {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide em duas colunas iguais */
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Container individual de cada campo */
+.input-container {
+    display: flex;
+    flex-direction: column; /* Coloca o label em cima do select */
+    text-align: left;
+}
+
+/* Estilo do rótulo (Label) */
+.input-container label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+/* Ajuste no select para ocupar todo o espaço do container */
+.input-container select {
+    width: 100%;
+    margin-bottom: 0; /* Remove a margem inferior padrão para não desalinharem */
 }

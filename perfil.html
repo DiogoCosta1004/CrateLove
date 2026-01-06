@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Fluid Dating</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet">
+</head>
+<body class="home-body">
+    <div id="toast-container"></div>
+    <header class="header">
+        <div class="logo"><img src="images/Logo.png" alt="Logo"></div>
+        <div id="auth-buttons"></div>
+    </header>
+
+    <main class="home-container">
+        <aside class="sidebar">
+            <nav>
+                <a href="home.html" id="nav-explorar"><i class="fa-solid fa-fire"></i> <span>Explorar</span></a>
+                <a href="mensagens.html" id="nav-mensagens"><i class="fa-solid fa-message"></i> <span>Mensagens</span></a>
+                <a href="#" id="nav-matches"><i class="fa-solid fa-heart"></i> <span>Matches</span></a>
+                <a href="perfil.html" class="active" id="nav-perfil"><i class="fa-solid fa-user"></i> <span>Meu Perfil</span></a>
+            </nav>
+        </aside>
+
+        <section class="feed">
+    <div class="chat-window" style="padding: 40px; height: auto; min-height: 80vh;">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+            <button onclick="window.location.href='home.html'" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #666;">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <h2 style="margin: 0;">Configurações de Perfil</h2>
+        </div>
+        
+        <p style="margin-bottom: 30px; color: #666;">Mantenha suas informações atualizadas para melhores conexões.</p>
+
+        <form id="editProfileForm">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div id="profilePreview" style="width: 150px; height: 150px; border-radius: 50%; border: 4px solid #ff7f7f; margin: 0 auto 15px; overflow: hidden; cursor: pointer;">
+                    <img id="currentPhoto" src="https://via.placeholder.com/150" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <input type="file" id="newPhoto" accept="image/*" style="display: none;">
+                <small>Clique na foto para alterar</small>
+            </div>
+
+            <div class="gender-selection">
+                <div class="input-container">
+                    <label for="editFirstName">Nome</label>
+                    <input type="text" id="editFirstName" placeholder="Seu nome" required>
+                </div>
+                <div class="input-container">
+                    <label for="editLastName">Sobrenome</label>
+                    <input type="text" id="editLastName" placeholder="Seu sobrenome" required>
+                </div>
+            </div>
+
+            <div class="input-container" style="margin-bottom: 15px;">
+                <label for="editBio">Sua Essência (Bio)</label>
+                <textarea id="editBio" placeholder="Conte um pouco sobre você..." maxlength="150" style="height: 100px;"></textarea>
+            </div>
+
+            <div class="gender-selection">
+                <div class="input-container">
+                    <label for="editGender">Seu Gênero</label>
+                    <select id="editGender">
+                        <option value="homem">Homem</option>
+                        <option value="mulher">Mulher</option>
+                        <option value="nao-binario">Não-binário</option>
+                        <option value="fluido">Gênero Fluido</option>
+                    </select>
+                </div>
+
+                <div class="input-container">
+                    <label for="editInterest">Interesse em</label>
+                    <select id="editInterest">
+                        <option value="homens">Homens</option>
+                        <option value="mulheres">Mulheres</option>
+                        <option value="todos">Todos</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="login" style="width: 100%; margin-top: 20px;">Salvar Alterações</button>
+        </form>
+    </div>
+</section>
+    </main>
+
+    <script type="module" src="perfil-script.js"></script>
+</body>
+</html>
